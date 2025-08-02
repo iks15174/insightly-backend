@@ -2,6 +2,7 @@ package com.product.insightly.controller
 
 import com.product.insightly.controller.dto.AppRecordingAnalysisStartRequest
 import com.product.insightly.service.AppRecordingAnalysisService
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,5 +19,13 @@ class AppRecordingAnalysisController(
         @RequestBody request: AppRecordingAnalysisStartRequest
     ) {
         return appRecordingAnalysisService.analysis(request.fileNames)
+    }
+
+    /**
+     * 영상 분석 상태 조회
+     */
+    @GetMapping("/status")
+    fun getStatus() {
+
     }
 }
