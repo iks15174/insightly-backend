@@ -12,10 +12,10 @@ import java.nio.file.StandardCopyOption
 import java.util.*
 
 @Service
-class AppRecordingFileService {
-
+class AppRecordingFileService(
     @Value("\${app.video.upload-dir:/uploads/videos}")
-    private lateinit var uploadDir: String
+    private val uploadDir: String
+) {
 
     private val logger = LoggerFactory.getLogger(AppRecordingFileService::class.java)
 
