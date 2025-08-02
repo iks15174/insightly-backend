@@ -29,7 +29,7 @@ class GoogleAIClient(
 
         val headers = HttpHeaders().apply {
             contentType = MediaType.APPLICATION_JSON
-            set("x-goog-api-key", apiKey)
+            set(googleApiKeyHeaderName, apiKey)
         }
 
         val entity = HttpEntity(request, headers)
