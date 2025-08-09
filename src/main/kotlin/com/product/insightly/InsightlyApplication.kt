@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class InsightlyApplication
 
 fun main(args: Array<String>) {
-	runApplication<InsightlyApplication>(*args)
+    runApplication<InsightlyApplication>(*args)
 }
