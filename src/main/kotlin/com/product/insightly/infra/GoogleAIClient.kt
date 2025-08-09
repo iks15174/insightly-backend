@@ -19,7 +19,7 @@ class GoogleAIClient(
 ) {
     private val modelName = "gemini-2.5-flash:generateContent"
     private val apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/${modelName}"
-    private val googleApiKeyHeaderName = "x-goog-api-key"
+    private val googleApiKeyHeaderName = "X-goog-api-key"
 
     fun analyzeVideo(file: File): GoogleAnalyzeVideoResponse? {
         val videoBytes = file.readBytes()

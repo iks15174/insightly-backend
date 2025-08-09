@@ -26,8 +26,8 @@ data class GoogleAnalyzeVideoResponse(
         val promptTokenCount: Int,
         val candidatesTokenCount: Int,
         val totalTokenCount: Int,
-        val promptTokensDetails: List<ModalityTokenDetail>,
-        val candidatesTokensDetails: List<ModalityTokenDetail>
+        val promptTokensDetails: List<ModalityTokenDetail> = emptyList(),
+        val candidatesTokensDetails: List<ModalityTokenDetail> = emptyList(),
     ) {
         data class ModalityTokenDetail(
             val modality: String,
