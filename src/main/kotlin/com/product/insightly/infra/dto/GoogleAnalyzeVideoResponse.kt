@@ -7,6 +7,8 @@ data class GoogleAnalyzeVideoResponse(
     val modelVersion: String,
     val responseId: String
 ) {
+    val analyzedAnswer = candidates[0].content.parts[0].text
+
     data class Candidate(
         val content: Content,
         val finishReason: String,
