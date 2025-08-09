@@ -1,5 +1,6 @@
 package com.product.insightly.infra.dto
 
+// TODO: 응답 문서 보고 Nullable  수정
 data class GoogleAnalyzeVideoResponse(
     val candidates: List<Candidate>,
     val usageMetadata: UsageMetadata,
