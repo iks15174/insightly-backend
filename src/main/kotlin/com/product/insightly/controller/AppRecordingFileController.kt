@@ -22,4 +22,9 @@ class AppRecordingFileController(
             ResponseEntity.ok(it)
         }
     }
+
+    @PostMapping("/upload-essential", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun uploadEssential(@RequestParam("file") file: MultipartFile) {
+        appRecordingFileService.uploadOnlyEssential(file)
+    }
 }

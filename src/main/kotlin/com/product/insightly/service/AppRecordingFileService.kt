@@ -13,8 +13,11 @@ import java.util.*
 
 @Service
 class AppRecordingFileService(
-    @Value("\${app.video.upload-dir:/uploads/videos}")
-    private val uploadDir: String
+    @Value("\${app.video.upload-dir}")
+    private val uploadDir: String,
+    @Value("\${app.video.scene-dir}")
+    private val sceneDir: String,
+    private val videoFileSceneService: VideoFileSceneService,
 ) {
 
     private val logger = LoggerFactory.getLogger(AppRecordingFileService::class.java)
@@ -22,7 +25,7 @@ class AppRecordingFileService(
     fun upload(file: MultipartFile): AppRecordingFileUploadDto {
         validateVideoFile(file)
 
-        val uploadPath = createUploadDirectory()
+        val uploadPath = createDirectory(uploadDir)
         val uniqueFilename = generateUniqueFilename(file.originalFilename ?: "video")
         val targetPath = uploadPath.resolve(uniqueFilename)
 
@@ -35,6 +38,26 @@ class AppRecordingFileService(
             filename = uniqueFilename,
             size = file.size,
         )
+    }
+
+    fun uploadOnlyEssential(file: MultipartFile) {
+        validateVideoFile(file)
+
+        val uploadedPath = createDirectory(uploadDir)
+        val scenePath = createDirectory("${sceneDir}\\${generateUniqueKey()}")
+
+        val uploadedFilename = generateUniqueFilename(file.originalFilename ?: "video")
+        val extractedFileName = generateUniqueFilename("extracted-${file.originalFilename}")
+
+        val uploadedFilePath = uploadedPath.resolve(uploadedFilename)
+        val extractedFilePath = uploadedPath.resolve(extractedFileName)
+
+        Files.copy(file.inputStream, uploadedFilePath, StandardCopyOption.REPLACE_EXISTING)
+        videoFileSceneService.extractEssentialScene(uploadedFilePath, scenePath)
+        videoFileSceneService.combineScenesToVideo(scenePath, extractedFilePath)
+
+        deleteFile(uploadedFilePath)
+        deleteDirectory(scenePath)
     }
 
     /**
@@ -58,11 +81,11 @@ class AppRecordingFileService(
     /**
      * 업로드 디렉토리 생성
      */
-    private fun createUploadDirectory(): Path {
-        val uploadPath = Paths.get(uploadDir)
+    private fun createDirectory(path: String): Path {
+        val uploadPath = Paths.get(path)
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath)
-            logger.info("업로드 디렉토리 생성: {}", uploadPath)
+            logger.info("디렉토리 생성: {}", uploadPath)
         }
         return uploadPath
     }
@@ -71,12 +94,29 @@ class AppRecordingFileService(
      * 고유한 파일명 생성
      */
     private fun generateUniqueFilename(originalFilename: String): String {
-        val timestamp = System.currentTimeMillis()
-        val uuid = UUID.randomUUID().toString().substring(0, 8)
         val extension = getFileExtension(originalFilename)
         val baseFilename = originalFilename.substringBeforeLast(".")
 
-        return "${timestamp}_${uuid}_${baseFilename}.${extension}"
+        return "${generateUniqueKey()}_${baseFilename}.${extension}"
+    }
+
+    private fun generateUniqueKey(): String {
+        val timestamp = System.currentTimeMillis()
+        val uuid = UUID.randomUUID().toString().substring(0, 8)
+        return "${timestamp}_${uuid}"
+    }
+
+    fun deleteDirectory(dir: Path) {
+        if (Files.exists(dir)) {
+            // 하위 모든 파일/디렉토리 탐색 → 역순 정렬 → 삭제
+            Files.walk(dir)
+                .sorted(Comparator.reverseOrder())
+                .forEach { Files.deleteIfExists(it) }
+        }
+    }
+
+    fun deleteFile(path: Path) {
+        Files.deleteIfExists(path)
     }
 
     /**
