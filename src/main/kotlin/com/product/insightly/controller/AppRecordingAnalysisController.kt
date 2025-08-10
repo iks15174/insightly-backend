@@ -1,7 +1,9 @@
 package com.product.insightly.controller
 
 import com.product.insightly.controller.dto.AppRecordingAnalysisStartRequest
+import com.product.insightly.infra.dto.ProductAnalysisResponse
 import com.product.insightly.service.AppRecordingAnalysisService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -13,8 +15,9 @@ class AppRecordingAnalysisController(
     @PostMapping("/start")
     fun start(
         @RequestBody request: AppRecordingAnalysisStartRequest
-    ) {
+    ): ResponseEntity<List<ProductAnalysisResponse>> {
         return appRecordingAnalysisService.analysis(request.fileNames)
+            .let { ResponseEntity.ok(it) }
     }
 
     /**

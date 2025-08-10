@@ -1,10 +1,10 @@
 package com.product.insightly.infra.dto
 
 data class ProductAnalysisResponse(
-    val strategic_summary: StrategicSummary,
-    val recommended_features: List<RecommendedFeature>,
+    val strategicSummary: StrategicSummary,
+    val recommendedFeatures: List<RecommendedFeature>,
     val scores: Scores,
-    val final_summary: String
+    val finalSummary: String
 ) {
     data class StrategicSummary(
         val strength: String,
@@ -19,10 +19,10 @@ data class ProductAnalysisResponse(
     )
 
     data class Scores(
-        val ux_convenience: ScoreDetail,
-        val user_benefit: ScoreDetail,
-        val problem_solving: ScoreDetail,
-        val total_score_100: Int // 0 ~ 100
+        val uxConvenience: ScoreDetail,
+        val userBenefit: ScoreDetail,
+        val problemSolving: ScoreDetail,
+        val totalScore100: Int // 0 ~ 100
     ) {
         data class ScoreDetail(
             val score: Int,

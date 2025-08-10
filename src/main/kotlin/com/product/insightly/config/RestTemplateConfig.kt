@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate
 @Configuration
 class RestTemplateConfig {
     @Bean
-    fun restTemplate(): RestTemplate {
+    fun googleRestTemplate(): RestTemplate {
         val restTemplate = RestTemplate()
         val requestFactory = SimpleClientHttpRequestFactory().apply {
             this.setReadTimeout(20000)

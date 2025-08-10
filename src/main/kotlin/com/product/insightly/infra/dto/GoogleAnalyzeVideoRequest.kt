@@ -1,10 +1,7 @@
 package com.product.insightly.infra.dto
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies
-import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.product.insightly.domain.AppRecordingAnalysisPrompt
 
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class GoogleAnalyzeVideoRequest(
     val contents: List<Content>
 ) {

@@ -11,14 +11,15 @@ object AppRecordingAnalysisPrompt {
         - 최종 총평 작성 (자유 길이, 1~3문장)  
         - 기존에 알고 있는 지식은 전혀 쓰지 말고, **영상만 보고 유추 및 분석**  
 
-        [응답 형식 - JSON]  
+        [응답 형식]
+        - 아래 형태의 json string 만을 응답해
         {
-          "strategic_summary": {
+          "strategicSummary": {
             "strength": "string",
             "weakness": "string",
             "opportunity": "string"
           },
-          "recommended_features": [
+          "recommendedFeatures": [
             {
               "rank": 1,
               "title": "string",
@@ -26,24 +27,24 @@ object AppRecordingAnalysisPrompt {
             }
           ],
           "scores": {
-            "ux_convenience": {
+            "uxConvenience": {
               "score": "integer(0~5)",
               "rank": "integer(1~3)",
               "evaluation": "string"
             },
-            "user_benefit": {
+            "userBenefit": {
               "score": "integer(0~5)",
               "rank": "integer(1~3)",
               "evaluation": "string"
             },
-            "problem_solving": {
+            "problemSolving": {
               "score": "integer(0~5)",
               "rank": "integer(1~3)",
               "evaluation": "string"
             },
-            "total_score_100": "integer(0~100)"
+            "totalScore100": "integer(0~100)"
           },
-          "final_summary": "string(자유 길이)"
+          "finalSummary": "string(자유 길이)"
         }
 
     """.trimIndent()

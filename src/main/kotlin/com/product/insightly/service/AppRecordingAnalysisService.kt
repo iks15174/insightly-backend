@@ -29,7 +29,6 @@ class AppRecordingAnalysisService(
 
         val results = responses
             .map { objectMapper.readValue(it.analyzedAnswer, ProductAnalysisResponse::class.java) }
-            .also { println(it) }
         return results
     }
 }

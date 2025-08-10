@@ -14,7 +14,7 @@ import java.util.*
 
 @Component
 class GoogleAIClient(
-    private val restTemplate: RestTemplate,
+    private val googleRestTemplate: RestTemplate,
     @Value("\${google.ai.api.key}") private val apiKey: String,
 ) {
     private val modelName = "gemini-2.5-flash:generateContent"
@@ -34,7 +34,7 @@ class GoogleAIClient(
 
         val entity = HttpEntity(request, headers)
 
-        val response = restTemplate.exchange(
+        val response = googleRestTemplate.exchange(
             /* url = */ apiUrl,
             /* method = */ HttpMethod.POST,
             /* requestEntity = */ entity,
